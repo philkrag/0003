@@ -40,7 +40,7 @@ bool stringComplete = false;                                                    
 bool Data_Transmitting_Flag = false;                                                // [Possibly Obsolete]
 bool Data_Revieced_Flag = false;                                                    // Used for determing when data packets have been sent.
 int Serial_Recieve_Indexer = 0;                                                     // Used for checksum feedback.
-
+String Temp_Message_Indexer;                                                                 // Used for temporary memory.
 
 void setup() {
 
@@ -70,7 +70,8 @@ if(Incoming_Buffer.indexOf("\r") >= 0){Data_Revieced_Flag = true;}              
 
 if(Data_Revieced_Flag){                                                             // When data has been recieved.
 Input_SD_Data(Incoming_Buffer);                                                     // Save data to SD card.
-Serial.println(Get_Time_Stamp() + "["+(String)Serial_Recieve_Indexer+"] OK");       // Provide feedback to transmitting device.
+Temp_Message_Indexer = "["+Padding(6,(String)Serial_Recieve_Indexer)+"]";           // Temp external indexer formatting.
+Serial.println(Get_Time_Stamp() + Temp_Message_Indexer + " OK");                    // Provide feedback to transmitting device.
 Check_Function_Requests(Incoming_Buffer);                                           // Check for externally triggered function request.
 Incoming_Buffer = "";                                                               // Reset incoming message buffer.
 Data_Revieced_Flag = false;                                                         // Reset data recieved flag.
